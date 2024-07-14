@@ -5,6 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex h-screen max-h-screen">
+      {/* TODO: OTP VERIFICATION */}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
            <Image  src={"/assets/icons/logo-full.svg"} height={1000} width={1000} alt="logo-patient" className="mb-12 h-10 w-fit" />
@@ -15,6 +16,7 @@ export default function Home() {
       <Link href={'/?admin=true'} className="text-green-500">Admin</Link>
         </div>
       </section>
+      <Image  src="/assets/images/onboarding-img.png" alt='patient' width={1000} height={1000} className="side-img max-w-[50%]"/>
     </div>
     
   );
