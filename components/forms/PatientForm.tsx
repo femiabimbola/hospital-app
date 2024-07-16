@@ -19,6 +19,17 @@ const formSchema = z.object({
   username: z.string().min(2).max(50),
 })
 
+// It easily picks the error
+export enum FormFieldType {
+  INPUT = 'input',
+  TEXTAREA = 'textarea',
+  PHONE_INPUT = 'phoneInput',
+  CHECKOUT = 'checkbox',
+  DATE_PICKER = 'datePicker',
+  SELECT ='select',
+  SKELETON = 'skeleton'
+}
+
 
 const PatientForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +51,10 @@ const PatientForm = () => {
             <p className="text-dark-700"> Schedule your appointment</p>
           </section>
           {/* Creating a custom reusable component */}
-      <CustomFormField control={form.control}/>
+          <CustomFormField control={form.control } fieldType={FormFieldType.INPUT}
+            name="name" label="full name" placeholder="John Doe" 
+            iconSrc="/assets/icons/user.svg" iconAlt='user'
+          />
           <Button type="submit">Submit</Button>
         </form>
       </Form>
