@@ -17,14 +17,19 @@ interface CustomProps {
     control: Control<any>,
     fieldType: FormFieldType,  //it helps you pick the error
     name: string,
-    label?:string,
+    label?:string ,
     placeholder?: string,
     iconSrc?: string,
     iconAlt?: string,
     disabled?: boolean,
     dateFormat?: string,
     showTimeSelect?: boolean,
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    renderSkeleton?:(field:any) => React.ReactNode
+}
+
+const RenderInput = {
+  
 }
 
 const CustomFormField = ({control, fieldType, name, label}: CustomProps) => {
@@ -34,10 +39,11 @@ const CustomFormField = ({control, fieldType, name, label}: CustomProps) => {
     control={control}
     name={name}
     render={({ field }) => (
-      {fieldType !== FormFieldType.CHECKBOX && label (
+      <FormItem className="flex-1">
+      {fieldType !== FormFieldType.CHECKBOX && label && (
         <FormLabel> {label} </FormLabel>
-      ) 
-    }
+      )}
+      </FormItem>
     )}
   />
   )
