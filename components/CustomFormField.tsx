@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
 import { FormFieldType } from "./forms/PatientForm";
+import Image from "next/image";
 
 interface CustomProps {
   control: Control<any>;
@@ -28,23 +29,39 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-const RenderInput = ({ field, props}: {field:any; props: CustomProps}) => {
-  // return <Input type="text" placeholder="John Doe" />;
-  switch (props.fieldType) {
+const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+  const { fieldType, iconSrc, iconAlt, placeholder } = props;
+  switch (fieldType) {
     case FormFieldType.INPUT:
-      return( <div> </div>)
-      break;
-  
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          {iconSrc && (
+            <Image
+              src={iconSrc}
+              width={24}
+              height={24}
+              alt={iconAlt || "icon"}
+              className="ml-2"
+            />
+          )}
+          <FormControl>
+            <Input
+              placeholder={placeholder}
+              {...field}
+              className="shad-input border-0"
+            />
+          </FormControl>
+        </div>
+      );
     default:
       break;
   }
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, fieldType, name, label} = props;
+  const { control, fieldType, name, label } = props;
   return (
     <FormField
-      // control={form.control}
       control={control}
       name={name}
       render={({ field }) => (
@@ -52,7 +69,7 @@ const CustomFormField = (props: CustomProps) => {
           {fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel> {label} </FormLabel>
           )}
-          <RenderInput field={field} props={props}/>
+          <RenderInput field={field} props={props} />
           <FormMessage className="shad-error" />
         </FormItem>
       )}
