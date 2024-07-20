@@ -58,7 +58,15 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
-          <PhoneInput defaultCountry="NG" />
+          <PhoneInput
+            defaultCountry="NG"
+            placeholder={placeholder}
+            international
+            withCountryCallingCode
+            value={field.value as E164Number | undefined} //stacjoverflow
+            onChange={field.onChange}
+            className="input-phone"
+          />
         </FormControl>
       );
 
