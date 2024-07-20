@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { PatientFormSchema } from "@/lib/zodValidation";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,10 +15,7 @@ import {
 } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
-
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-});
+import { useState } from "react";
 
 // It easily picks the error
 export enum FormFieldType {
@@ -32,15 +29,21 @@ export enum FormFieldType {
 }
 
 const PatientForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isLoading, setIsLoding] = useState(false);
+
+  const form = useForm<z.infer<typeof PatientFormSchema>>({
+    resolver: zodResolver(PatientFormSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof PatientFormSchema>) {
+    setIsLoding(true);
     console.log(values);
+    setIsLoding(false);
   }
 
   return (
@@ -77,7 +80,7 @@ const PatientForm = () => {
           placeholder="0806-559-3834"
           iconAlt="email"
         />
-        <SubmitButton />
+        <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
     </Form>
   );
