@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
+import SubmitButton from "../SubmitButton";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -76,7 +77,7 @@ const PatientForm = () => {
           placeholder="0806-559-3834"
           iconAlt="email"
         />
-        <Button type="submit">Submit</Button>
+        <SubmitButton />
       </form>
     </Form>
   );

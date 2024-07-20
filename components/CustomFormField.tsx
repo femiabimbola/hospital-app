@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
+import { E164Number } from "libphonenumber-js/core";
 import { Control } from "react-hook-form";
 import { FormFieldType } from "./forms/PatientForm";
 import Image from "next/image";
@@ -63,7 +64,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             placeholder={placeholder}
             international
             withCountryCallingCode
-            value={field.value as E164Number | undefined} //stacjoverflow
+            value={field.value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
           />
