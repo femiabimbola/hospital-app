@@ -16,6 +16,7 @@ import {
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // It easily picks the error
 export enum FormFieldType {
@@ -31,6 +32,8 @@ export enum FormFieldType {
 const PatientForm = () => {
   const [isLoading, setIsLoding] = useState(false);
 
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof PatientFormSchema>>({
     resolver: zodResolver(PatientFormSchema),
     defaultValues: {
@@ -40,16 +43,27 @@ const PatientForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof PatientFormSchema>) {
+  async function onSubmit({
+    name,
+    email,
+    phone,
+  }: z.infer<typeof PatientFormSchema>) {
     setIsLoding(true);
-    console.log(values);
+    try {
+      const userData = { name, email, phone };
+
+      // const user = await createUser(userData);
+      // if (user) router.push("/patients/${user.$id}/register");
+    } catch (error) {
+      console.log(error);
+    }
     setIsLoding(false);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-        <section className="mb-12 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1">
+        <section className="mb-8 space-y-2">
           <h1 className="header"> Welcome to Care Pulse</h1>
           <p className="text-dark-700"> Schedule your appointment</p>
         </section>
