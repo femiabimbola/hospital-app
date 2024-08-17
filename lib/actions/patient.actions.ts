@@ -13,3 +13,11 @@ export const createUser = async (user: CreateUserParams) => {
     }  
   }
 }
+
+export const getUser = async (userId: string) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
