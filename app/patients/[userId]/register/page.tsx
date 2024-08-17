@@ -1,12 +1,14 @@
 import RegisterForm from "@/components/forms/RegisterForm";
+import { getUser } from "@/lib/actions/patient.actions";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Register = () => {
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  //The user id is gotten from params
+  const user = await getUser(userId);
   return (
     <div className="flex h-screen max-h-screen">
-      {/* TODO: OTP VERIFICATION */}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
           <Image
@@ -17,7 +19,7 @@ const Register = () => {
             className="mb-2 h-10 w-fit"
           />
         </div>
-        <RegisterForm />
+        <RegisterForm user={user} />
         <div className="text-14-regular mt-8 flex justify-between">
           <p className="justify-items-end text-dark-600 xl:text-left">
             © 2024. The Hosiptal Application

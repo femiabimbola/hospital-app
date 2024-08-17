@@ -18,19 +18,9 @@ import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
+import { FormFieldType } from "./PatientForm";
 
-// It easily picks the error
-export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
-
-const RegisterForm = () => {
+const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoding] = useState(false);
 
   const router = useRouter();
@@ -63,12 +53,15 @@ const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-12 flex-1"
+      >
         <section className="mb-8 space-y-2">
-          <h1 className="header"> Welcome to Care Pulse</h1>
-          <p className="text-dark-700"> Schedule your appointment</p>
+          <h1 className="header"> Welcome </h1>
+          <p className="text-dark-700"> Let us know more about you</p>
         </section>
-        {/* Creating a custom reusable component */}
+
         <CustomFormField
           control={form.control}
           fieldType={FormFieldType.INPUT}
@@ -78,23 +71,7 @@ const RegisterForm = () => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="email"
-          label="Email"
-          placeholder="johndoe@email.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.PHONE_INPUT}
-          name="phone"
-          label="Phone number"
-          placeholder="0806-559-3834"
-          iconAlt="email"
-        />
+
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
     </Form>
