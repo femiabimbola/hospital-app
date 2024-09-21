@@ -44,15 +44,14 @@ const PatientForm = () => {
     },
   });
 
-  async function onSubmit({
+ const onSubmit = async ({
     name,
     email,
     phone,
-  }: z.infer<typeof PatientFormSchema>) {
+  }: z.infer<typeof PatientFormSchema>) => {
     setIsLoding(true);
     try {
       const userData = { name, email, phone };
-
       const user = await createUser(userData);
       if (user) router.push(`/patients/${user.$id}/register`);
     } catch (error) {
