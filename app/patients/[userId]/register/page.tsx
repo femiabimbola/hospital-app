@@ -10,7 +10,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
-        <div className="sub-container max-w-[496px]">
+        <div className="sub-container mx-auto">
           <Image
             src={"/assets/icons/logo-full.svg"}
             height={1000}
@@ -34,7 +34,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
         alt="patient"
         width={1000}
         height={1000}
-        className="side-img max-w-[390px]"
+        className="side-img max-w-[400px]"
       />
     </div>
   );

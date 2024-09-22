@@ -28,8 +28,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   const form = useForm<z.infer<typeof PatientFormSchema>>({
     resolver: zodResolver(PatientFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: "", email: "",
       phone: "",
     },
   });
@@ -44,7 +43,6 @@ const RegisterForm = ({ user }: { user: User }) => {
       const userData = { name, email, phone };
 
       const user = await createUser(userData);
-      if (user) router.push(`/patients/${user.$id}/register`);
     } catch (error) {
       console.log(error);
     }
@@ -57,10 +55,16 @@ const RegisterForm = ({ user }: { user: User }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-12 flex-1"
       >
-        <section className="mb-8 space-y-2">
+        <section className="space-y-2">
           <h1 className="header"> Welcome </h1>
           <p className="text-dark-700"> Let us know more about you</p>
-        </section>
+        </section> 
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+          <h2 className="sub-header text-white"> Personal Information </h2>
+          </div>
+        </section> 
 
         <CustomFormField
           control={form.control}
@@ -71,6 +75,26 @@ const RegisterForm = ({ user }: { user: User }) => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
+        <div className="flex flex-col gap-6 xl:flex-row">
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="email"
+          label="Email"
+          placeholder="johndoe@email.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email"
+        />
+
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.PHONE_INPUT}
+          name="phone"
+          label="Phone number"
+          placeholder="0806-559-3834"
+          iconAlt="email"
+        />
+        </div>
 
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
