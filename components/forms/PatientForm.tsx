@@ -28,6 +28,7 @@ export enum FormFieldType {
   DATE_PICKER = "datePicker",
   SELECT = "select",
   SKELETON = "skeleton",
+  PASSWORD= "password",
 }
 
 const PatientForm = () => {
@@ -85,6 +86,13 @@ const PatientForm = () => {
           placeholder="johndoe@email.com"
           iconSrc="/assets/icons/email.svg"
           iconAlt="email"
+        />
+          <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.PASSWORD}
+          name="password"
+          label="Password"
+          placeholder="Enter your password"
         />
         <CustomFormField
           control={form.control}

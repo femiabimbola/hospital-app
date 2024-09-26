@@ -16,6 +16,8 @@ import { FormFieldType } from "./forms/PatientForm";
 import Image from "next/image";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { Eye, EyeOff, Key } from "lucide-react";
+import { useState } from "react";
 
 interface CustomProps {
   control: Control<any>;
@@ -33,6 +35,7 @@ interface CustomProps {
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+  const [showPassword, setShowPassword] = useState(true)
   const { fieldType, iconSrc, iconAlt, placeholder } = props;
   switch (fieldType) {
     case FormFieldType.INPUT:
@@ -71,14 +74,39 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         </FormControl>
       );
 
-      case FormFieldType.DATE_PICKER:
+    case FormFieldType.DATE_PICKER:
         return (
           <div>
             
           </div>
         );
   
-
+    case FormFieldType.PASSWORD:
+     
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          <Key width={24} 
+          height={24}  
+          className="text-white ml-2 mt-3"
+          />
+        <FormControl>
+          <Input
+            placeholder={placeholder}
+            {...field}
+            className="shad-input border-0"
+            type={showPassword ? 'text': 'password'}
+          />
+        </FormControl>
+        {showPassword ? 
+        <EyeOff 
+          onClick={() => setShowPassword(true)}
+          className="text-white mr-4 mt-3" 
+           /> : 
+        <Eye className="text-white mr-4 mt-3"
+         onClick={() => setShowPassword(false)} />
+         }
+      </div>
+      );
     default:
       break;
   }
