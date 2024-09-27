@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Form,
   FormControl,
@@ -34,8 +35,9 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
-  const [showPassword, setShowPassword] = useState(true)
+
+
+const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => { 
   const { fieldType, iconSrc, iconAlt, placeholder } = props;
   switch (fieldType) {
     case FormFieldType.INPUT:
@@ -82,7 +84,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         );
   
     case FormFieldType.PASSWORD:
-     
+     const [showPassword, setShowPassword] = useState(false)
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
           <Key width={24} 
@@ -99,11 +101,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         </FormControl>
         {showPassword ? 
         <EyeOff 
-          onClick={() => setShowPassword(true)}
+          onClick={() => setShowPassword(false)}
           className="text-white mr-4 mt-3" 
            /> : 
         <Eye className="text-white mr-4 mt-3"
-         onClick={() => setShowPassword(false)} />
+         onClick={() => setShowPassword(true)} />
          }
       </div>
       );
