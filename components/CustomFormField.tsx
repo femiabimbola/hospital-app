@@ -21,6 +21,8 @@ import { Eye, EyeOff, Key } from "lucide-react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CustomProps {
   control: Control<any>;
@@ -40,7 +42,7 @@ interface CustomProps {
 
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => { 
-  const { fieldType, iconSrc, iconAlt, placeholder, dateFormat, showTimeSelect, renderSkeleton} = props;
+  const { fieldType, iconSrc, iconAlt, placeholder, dateFormat, showTimeSelect, renderSkeleton, children} = props;
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -73,7 +75,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             withCountryCallingCode
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
-            className="input-phone text-white"
+            className="input-phone"
           />
         </FormControl>
       );
@@ -100,9 +102,32 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.SKELETON:
       return  renderSkeleton ? renderSkeleton(field) : null;
     
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textArea"
+            disabled={props.disabled}
+          />
+        </FormControl>
+      );
+    
     case FormFieldType.SELECT:
       return(
-        <div></div>
+       <FormControl>
+        <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger className="shad-select-trigger text-white">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent className="shad-select-content text-white">
+            {children}
+        </SelectContent>
+        </Select>
+       </FormControl>
       )
     case FormFieldType.PASSWORD:
      const [showPassword, setShowPassword] = useState(false)

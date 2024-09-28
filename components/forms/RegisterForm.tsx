@@ -22,8 +22,8 @@ import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { Doctors, GenderOptions } from "@/constant";
 import { Label } from "../ui/label";
-import { Pin } from "lucide-react";
 import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoding] = useState(false);
@@ -189,11 +189,68 @@ const RegisterForm = ({ user }: { user: User }) => {
         >
           {Doctors.map((doctor) => (
             <SelectItem key={doctor.name} value={doctor.name}>
-              <div className="flex cursor-pointer">
-                
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image src={doctor.image} width={32} height={32}
+                alt={doctor.name} 
+                 className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
               </div>
           </SelectItem>))}
         </CustomFormField>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="insuranceProvider"
+            label="Insurance Provider"
+            placeholder="Enter your Insurance Provider"
+          />
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="insurancePolicyNumner"
+            label="Insurance Policy Number"
+            placeholder="Enter Insurance Number"
+          />
+        </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.TEXTAREA}
+            name="allergies"
+            label="Allergies"
+            placeholder="Enter your Allegries"
+          />
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.TEXTAREA}
+            name="currentMedication"
+            label="Current Medication (if any)"
+            placeholder="List the medication you are presently taking"
+          />
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.TEXTAREA}
+            name="familyMedicalHistory"
+            label="Family Medical History"
+            placeholder="Enter your Family Medical History"
+          />
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.TEXTAREA}
+            name="pastMedicalHistory"
+            label="Past Medical History(if any)"
+            placeholder=" Enter your Past Medical History"
+          />
+        </div>
 
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
