@@ -40,7 +40,7 @@ interface CustomProps {
 
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => { 
-  const { fieldType, iconSrc, iconAlt, placeholder, dateFormat, showTimeSelect   } = props;
+  const { fieldType, iconSrc, iconAlt, placeholder, dateFormat, showTimeSelect, renderSkeleton} = props;
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -98,9 +98,12 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         );
   
     case FormFieldType.SKELETON:
-      return (<div>
-
-      </div>)
+      return  renderSkeleton ? renderSkeleton(field) : null;
+    
+    case FormFieldType.SELECT:
+      return(
+        <div></div>
+      )
     case FormFieldType.PASSWORD:
      const [showPassword, setShowPassword] = useState(false)
       return (

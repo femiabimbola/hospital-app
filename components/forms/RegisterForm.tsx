@@ -20,8 +20,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
-import { GenderOptions } from "@/constant";
+import { Doctors, GenderOptions } from "@/constant";
 import { Label } from "../ui/label";
+import { Pin } from "lucide-react";
+import { SelectItem } from "../ui/select";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoding] = useState(false);
@@ -96,7 +98,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             name="phone"
             label="Phone number"
             placeholder="0806-559-3834"
-            iconAlt="email"
           />
         </div>
         <div className="flex flex-col gap-6 xl:flex-row">
@@ -118,7 +119,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             renderSkeleton={(field) => (
               <FormControl>
                 <RadioGroup
-                  className="flex h-11 gap-6 xl:justify-between"
+                  className="flex h-11 gap-6 xl:justify-between text-white"
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
@@ -135,6 +136,64 @@ const RegisterForm = ({ user }: { user: User }) => {
             )}
           />
         </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="address"
+            label="Address"
+            placeholder="Enter your address"
+          />
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="occupation"
+            label="Occupation"
+            placeholder="Enter your occupation"
+          />
+        </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="emergencyContactName"
+            label="Emergency Contact Name"
+            placeholder="Enter your emergency contact name"
+          />
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.PHONE_INPUT}
+            name="emergencyContactNumber"
+            label="Emergency Contact Number"
+            placeholder="0806-559-3834"
+            iconAlt="email"
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header text-white"> Medical Information</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.SELECT}
+          name="primaryPhysician"
+          label="Primary Doctor"
+          placeholder="Select a physician"
+        >
+          {Doctors.map((doctor) => (
+            <SelectItem key={doctor.name} value={doctor.name}>
+              <div className="flex cursor-pointer">
+                
+              </div>
+          </SelectItem>))}
+        </CustomFormField>
 
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
