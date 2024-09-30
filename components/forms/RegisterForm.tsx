@@ -26,7 +26,6 @@ import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import { FileUploader } from "../FileUploder";
 
-
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoding] = useState(false);
 
@@ -280,26 +279,54 @@ const RegisterForm = ({ user }: { user: User }) => {
           ))}
         </CustomFormField>
 
-        
         <CustomFormField
-            control={form.control}
-            fieldType={FormFieldType.INPUT}
-            name="identificationNumber"
-            label="Identification Number"
-            placeholder="Enter Identification Number"
-          />
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="identificationNumber"
+          label="Identification Number"
+          placeholder="Enter Identification Number"
+        />
 
-<CustomFormField
-            control={form.control}
-            fieldType={FormFieldType.SKELETON}
-            name="identificationDocument"
-            label="Scanned Copy of Identification Document"
-            renderSkeleton={(field) => (
-              <FormControl>
-                <FileUploader />
-              </FormControl>
-            )}
-          />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.SKELETON}
+          name="identificationDocument"
+          label="Scanned Copy of Identification Document"
+          renderSkeleton={(field) => (
+            <FormControl>
+              <FileUploader files={field.value} onChange={field.onChange} />
+            </FormControl>
+          )}
+        />
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header text-white">Consent and Privacy</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.CHECKBOX}
+          control={form.control}
+          name="treatmentConsent"
+          label="I consent to receive treatment for my health condition."
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.CHECKBOX}
+          control={form.control}
+          name="disclosureConsent"
+          label="I consent to the use and disclosure of my health
+            information for treatment purposes."
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.CHECKBOX}
+          control={form.control}
+          name="privacyConsent"
+          label="I acknowledge that I have reviewed and agree to the
+            privacy policy"
+        />
 
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>

@@ -23,6 +23,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 
 interface CustomProps {
   control: Control<any>;
@@ -39,10 +40,17 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-
-
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => { 
-  const { fieldType, iconSrc, iconAlt, placeholder, dateFormat, showTimeSelect, renderSkeleton, children} = props;
+const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+  const {
+    fieldType,
+    iconSrc,
+    iconAlt,
+    placeholder,
+    dateFormat,
+    showTimeSelect,
+    renderSkeleton,
+    children,
+  } = props;
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -81,27 +89,48 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
 
     case FormFieldType.DATE_PICKER:
-        return (
-          <div className="flex rounded-md border border-dark-500 bg-dark-400 text-white">
-            <Image src="/assets/icons/calendar.svg" alt=""  height={24} width={24}
-              className="ml-2"
-            />
-            <FormControl>
-            <DatePicker selected={field.value} 
-             onChange={(date) => field.onChange(date)} 
-              dateFormat={dateFormat ?? 'dd/MM/yyyy'}
-              showTimeSelect = { showTimeSelect ?? false}
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400 text-white">
+          <Image
+            src="/assets/icons/calendar.svg"
+            alt=""
+            height={24}
+            width={24}
+            className="ml-2"
+          />
+          <FormControl>
+            <DatePicker
+              selected={field.value}
+              onChange={(date) => field.onChange(date)}
+              dateFormat={dateFormat ?? "dd/MM/yyyy"}
+              showTimeSelect={showTimeSelect ?? false}
               timeInputLabel="Time"
-              wrapperClassName = "date-picker"
+              wrapperClassName="date-picker"
             />
-            </FormControl>
-            
+          </FormControl>
+        </div>
+      );
+
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              className="text-white"
+            />
+            <label htmlFor={props.name} className="checkbox-label">
+              {props.label}
+            </label>
           </div>
-        );
-  
+        </FormControl>
+      );
+
     case FormFieldType.SKELETON:
-      return  renderSkeleton ? renderSkeleton(field) : null;
-    
+      return renderSkeleton ? renderSkeleton(field) : null;
+
     case FormFieldType.TEXTAREA:
       return (
         <FormControl>
@@ -113,47 +142,47 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       );
-    
+
     case FormFieldType.SELECT:
-      return(
-       <FormControl>
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
+      return (
         <FormControl>
-          <SelectTrigger className="shad-select-trigger text-white">
-            <SelectValue placeholder={placeholder} />
-          </SelectTrigger>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger text-white">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content text-white">
+              {children}
+            </SelectContent>
+          </Select>
         </FormControl>
-        <SelectContent className="shad-select-content text-white">
-            {children}
-        </SelectContent>
-        </Select>
-       </FormControl>
-      )
+      );
     case FormFieldType.PASSWORD:
-     const [showPassword, setShowPassword] = useState(false)
+      const [showPassword, setShowPassword] = useState(false);
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
-          <Key width={24} 
-          height={24}  
-          className="text-white ml-2 mt-3"
-          />
-        <FormControl>
-          <Input
-            placeholder={placeholder}
-            {...field}
-            className="shad-input border-0"
-            type={showPassword ? 'text': 'password'}
-          />
-        </FormControl>
-        {showPassword ? 
-        <EyeOff 
-          onClick={() => setShowPassword(false)}
-          className="text-white mr-4 mt-3" 
-           /> : 
-        <Eye className="text-white mr-4 mt-3"
-         onClick={() => setShowPassword(true)} />
-         }
-      </div>
+          <Key width={24} height={24} className="text-white ml-2 mt-3" />
+          <FormControl>
+            <Input
+              placeholder={placeholder}
+              {...field}
+              className="shad-input border-0"
+              type={showPassword ? "text" : "password"}
+            />
+          </FormControl>
+          {showPassword ? (
+            <EyeOff
+              onClick={() => setShowPassword(false)}
+              className="text-white mr-4 mt-3"
+            />
+          ) : (
+            <Eye
+              className="text-white mr-4 mt-3"
+              onClick={() => setShowPassword(true)}
+            />
+          )}
+        </div>
       );
     default:
       break;

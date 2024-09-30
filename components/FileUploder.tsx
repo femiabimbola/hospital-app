@@ -12,7 +12,9 @@ type FileUploaderProps = {
 };
 
 export const FileUploader = ({ files, onChange }: FileUploaderProps) => {
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    //accept the files
     onChange(acceptedFiles);
   }, []);
 
