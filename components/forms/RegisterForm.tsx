@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PatientFormSchema } from "@/lib/zodValidation";
+import { PatientFormValidation } from "@/lib/zodValidation";
 import { z } from "zod";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import {
@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
-import { Doctors, GenderOptions, IdentificationTypes } from "@/constant";
+import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constant";
 import { Label } from "../ui/label";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
@@ -31,25 +31,21 @@ const RegisterForm = ({ user }: { user: User }) => {
 
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof PatientFormSchema>>({
-    resolver: zodResolver(PatientFormSchema),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
+      ...PatientFormDefaultValues,
       name: "",
       email: "",
       phone: "",
     },
   });
 
-  async function onSubmit({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof PatientFormSchema>) {
+  async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
     setIsLoding(true);
+    let formData;
     try {
-      const userData = { name, email, phone };
 
-      const user = await createUser(userData);
     } catch (error) {
       console.log(error);
     }
