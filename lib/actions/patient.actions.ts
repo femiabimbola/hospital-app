@@ -25,3 +25,11 @@ export const getUser = async (userId: string) => {
     console.log(error)
   }
 }
+
+export const  registerPatient = async({identificationDocument, ...patient}: RegisterUserParams) => {
+  try {
+    let file;
+  } catch (error) {
+    console.log(error)
+  }
+}
