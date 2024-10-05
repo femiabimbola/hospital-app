@@ -18,7 +18,7 @@ import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUser, registerPatient } from "@/lib/actions/patient.actions";
+import {registerPatient } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constant";
 import { Label } from "../ui/label";
@@ -27,7 +27,7 @@ import Image from "next/image";
 import { FileUploader } from "../FileUploder";
 
 const RegisterForm = ({ user }: { user: User }) => {
-  const [isLoading, setIsLoding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -42,7 +42,9 @@ const RegisterForm = ({ user }: { user: User }) => {
   });
 
   const onSubmit = async(values: z.infer<typeof PatientFormValidation>) => {
-    setIsLoding(true);
+    setIsLoading(true);
+    console.log("here?")
+    console.log(values)
     let formData;
 
     if (values.identificationDocument && values.identificationDocument?.length > 0
@@ -62,6 +64,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         birthDate: new Date(values.birthDate),
         identificationDocument: formData
       }
+      console.log(patientData)
       const newPatient = await registerPatient(patientData);
       
       if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
@@ -69,7 +72,7 @@ const RegisterForm = ({ user }: { user: User }) => {
     } catch (error) {
       console.log(error);
     }
-    setIsLoding(false);
+    setIsLoading(false);
   }
 
   return (

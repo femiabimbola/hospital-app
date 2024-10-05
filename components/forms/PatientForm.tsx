@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PatientFormSchema } from "@/lib/zodValidation";
+import {  UserFormValidation } from "@/lib/zodValidation";
 import { z } from "zod";
 import {
   Form,
@@ -32,12 +32,12 @@ export enum FormFieldType {
 }
 
 const PatientForm = () => {
-  const [isLoading, setIsLoding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof PatientFormSchema>>({
-    resolver: zodResolver(PatientFormSchema),
+  const form = useForm<z.infer<typeof UserFormValidation>>({
+    resolver: zodResolver(UserFormValidation),
     defaultValues: {
       name: "",
       email: "",
@@ -46,11 +46,9 @@ const PatientForm = () => {
   });
 
  const onSubmit = async ({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof PatientFormSchema>) => {
-    setIsLoding(true);
+    name,email,phone,
+  }: z.infer<typeof UserFormValidation>) => {
+    setIsLoading(true);
     try {
       const userData = { name, email, phone };
       const user = await createUser(userData);
@@ -58,7 +56,7 @@ const PatientForm = () => {
     } catch (error) {
       console.log(error);
     }
-    setIsLoding(false);
+    setIsLoading(false);
   }
 
   return (

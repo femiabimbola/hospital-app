@@ -16,7 +16,6 @@ import { InputFile } from "node-appwrite/file";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
-    console.log(user);
     const newUser = await users.create(
       ID.unique(),
       user.email,
@@ -42,11 +41,11 @@ export const getUser = async (userId: string) => {
 };
 
 export const registerPatient = async ({
-  identificationDocument,
-  ...patient
+  identificationDocument, ...patient
 }: RegisterUserParams) => {
   try {
     // Upload file ->  // https://appwrite.io/docs/references/cloud/client-web/storage#createFile
+    console.log(`Patient is ${patient}`)
     let file;
     if (identificationDocument) {
       const inputFile =
@@ -65,11 +64,13 @@ export const registerPatient = async ({
       {
         identificationDocumentId: file?.$id || null,
         identificationDocumentUrl: file?.$id
-          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view??project=${PROJECT_ID}`
+          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
           : null,
         ...patient,
       }
     );
+
+    return parseStringify(newPatient);
   } catch (error) {
     console.log(error);
   }
