@@ -35,15 +35,12 @@ const RegisterForm = ({ user }: { user: User }) => {
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       ...PatientFormDefaultValues,
-      name: "",
-      email: "",
-      phone: "",
     },
   });
 
   const onSubmit = async(values: z.infer<typeof PatientFormValidation>) => {
-    setIsLoading(true);
     console.log("here?")
+    setIsLoading(true);
     console.log(values)
     let formData;
 
@@ -68,7 +65,6 @@ const RegisterForm = ({ user }: { user: User }) => {
       const newPatient = await registerPatient(patientData);
       
       if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
-      
     } catch (error) {
       console.log(error);
     }
@@ -235,7 +231,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomFormField
             control={form.control}
             fieldType={FormFieldType.INPUT}
-            name="insurancePolicyNumner"
+            name="insurancePolicyNumber"
             label="Insurance Policy Number"
             placeholder="Enter Insurance Number"
           />
