@@ -15,7 +15,7 @@ import { parseStringify } from "../utils";
 import { InputFile } from "node-appwrite/file";
 
 export const createUser = async (user: CreateUserParams) => {
-  try {
+  try { 
     const newUser = await users.create(
       ID.unique(),
       user.email,
@@ -45,7 +45,6 @@ export const registerPatient = async ({
 }: RegisterUserParams) => {
   try {
     // Upload file ->  // https://appwrite.io/docs/references/cloud/client-web/storage#createFile
-    console.log(`Patient is ${patient}`)
     let file;
     if (identificationDocument) {
       const inputFile =
@@ -57,6 +56,7 @@ export const registerPatient = async ({
 
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
     }
+
     const newPatient = await database.createDocument(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
@@ -69,7 +69,7 @@ export const registerPatient = async ({
         ...patient,
       }
     );
-
+    
     return parseStringify(newPatient);
   } catch (error) {
     console.log(error);

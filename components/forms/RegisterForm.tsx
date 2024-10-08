@@ -12,7 +12,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
@@ -39,13 +38,10 @@ const RegisterForm = ({ user }: { user: User }) => {
   });
 
   const onSubmit = async(values: z.infer<typeof PatientFormValidation>) => {
-    console.log("here?")
     setIsLoading(true);
-    console.log(values)
     let formData;
 
-    if (values.identificationDocument && values.identificationDocument?.length > 0
-    ) {
+    if (values.identificationDocument && values.identificationDocument?.length > 0) {
       const blobFile = new Blob([values.identificationDocument[0]], {
         type: values.identificationDocument[0].type,
       });
