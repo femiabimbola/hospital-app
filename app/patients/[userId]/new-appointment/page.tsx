@@ -20,7 +20,7 @@ const AppointmentPage = async({ params :{userId }}: SearchParamProps) =>{
         </div>
         <AppointmentForm type="create" userId={userId} patientId={patient.$id}/>
         
-          <p className="justify-items-end text-dark-600 xl:text-left">
+          <p className="mt-4 text-dark-600 xl:text-center">
             © 2024. The Hosiptal Application
           </p>
       </section>
