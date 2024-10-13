@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {  UserFormValidation } from "@/lib/zodValidation";
+import { UserFormValidation } from "@/lib/zodValidation";
 import { z } from "zod";
 import {
   Form,
@@ -19,9 +19,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
+import { Doctors } from "@/constant";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
+interface AppointmentFormProps {
+  userId: string;
+  patientId: string;
+  type: "create" | "cancel";
+}
 
-const AppointmentForm = () => {
+const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -35,61 +43,64 @@ const AppointmentForm = () => {
     },
   });
 
- const onSubmit = async ({
-    name,email,phone,
+  const onSubmit = async ({
+    name,
+    email,
+    phone,
   }: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
     try {
       const userData = { name, email, phone };
       const user = await createUser(userData);
-   
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
-  }
- 
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1">
         <section className="mb-8 space-y-2">
-          <h1 className="header"> Welcome to Care Pulse</h1>
-          <p className="text-dark-700"> Schedule your appointment</p>
+          <h1 className="header"> New Appointment</h1>
+          <p className="text-dark-700"> Request a new appointment</p>
         </section>
-        {/* Creating a custom reusable component */}
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="name"
-          label="Full name"
-          placeholder="John Doe"
-          iconSrc="/assets/icons/user.svg"
-          iconAlt="user"
-        />
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="email"
-          label="Email"
-          placeholder="johndoe@email.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
-          <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.PASSWORD}
-          name="password"
-          label="Password"
-          placeholder="Enter your password"
-        />
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.PHONE_INPUT}
-          name="phone"
-          label="Phone number"
-          placeholder="0806-559-3834"
-          iconAlt="email"
-        />
+
+        {type !== "cancel" && (
+          <>
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldType.SELECT}
+              name="primaryPhysician"
+              label="Doctor"
+              placeholder="Select a doctor"
+            >
+              {Doctors.map((doctor) => (
+                <SelectItem key={doctor.name} value={doctor.name}>
+                  <div className="flex cursor-pointer items-center gap-2">
+                    <Image
+                      src={doctor.image}
+                      width={32}
+                      height={32}
+                      alt={doctor.name}
+                      className="rounded-full border border-dark-500"
+                    />
+                    <p>{doctor.name}</p>
+                  </div>
+                </SelectItem>
+              ))}
+            </CustomFormField>
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldType.DATE_PICKER}
+              name="schedule"
+              label="Expected Appointment Date"
+              showTimeSelect
+              dateFormat="dd/MM/yyyy"
+            />
+          </>
+        )}
+
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
     </Form>
@@ -97,3 +108,4 @@ const AppointmentForm = () => {
 };
 
 export default AppointmentForm;
+
