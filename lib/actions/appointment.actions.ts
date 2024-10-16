@@ -1,22 +1,25 @@
 "use server"
 
-import { ID } from "node-appwrite";
+
+import { ID, Query } from "node-appwrite";
 import { database, DATABASE_ID, PATIENT_COLLECTION_ID,APPOINTMENT_COLLECTION_ID, } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
+//3.10
 export const createAppointment = async (appointment: CreateAppointmentParams) => {
   try {
-    const newPatient = await database.createDocument(
+    const newAppointment = await database.createDocument(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
       ID.unique(),
       appointment
     );
-    return parseStringify(createAppointment);
+    return parseStringify(newAppointment);
   } catch (error) {
-    
+    console.error("An error occurred while creating a new appointment:", error);
   }
 }
+
 
 export const getAppointment = async (appointmentId: string) => {
   try {

@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { Doctors } from "@/constants";
+import { Doctors } from "@/constant"
+import { formatDateTime } from "@/lib/utils"
+import { getAppointment } from "@/lib/actions/appointment.actions"
 
-const Success = () => {
+const Success = async({params: {userId}, searchParams}: SearchParamProps) => {
+
+  const appointmentId = (searchParams?.appointmentId as string) || "";
+  const appointment = await getAppointment(appointmentId);
+
   const doctor = Doctors.find(
     (doctor) => doctor.name === appointment.primaryPhysician
   )
