@@ -13,30 +13,35 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/compo
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Otp from "@/components/Otp";
-import { encryptKey } from "@/lib/utils";
+import { decryptKey, encryptKey } from "@/lib/utils";
 
 const PasskeyModal = () => {
   const router = useRouter();
   const [open, setOpen] = useState(true);
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState("");
-  const path = usePathname()
+  const path = usePathname();
 
   const encryptedKey = typeof window !== "undefined" ? window.localStorage.getItem("accessKey"): null;
+
+
   
   const closeModal = () => {
     setOpen(false);
     router.push("/");
   };
 
-
   useEffect(() => {
+    const accessKey = encryptedKey && decryptKey(encryptedKey);
+    console.log(path)
     if(path){
-      if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+      if ( accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+        console.log(`Passkey - ${passkey}`)
+        console.log(`Admin - ${process.env.NEXT_PUBLIC_ADMIN_PASSKEY}`)
         setOpen(false);
-        router.push("/admin/")
+        router.push("/admin")
       } else {
-        setOpen(true)
+          setOpen(true)
       }
     }
   }, [encryptedKey])
