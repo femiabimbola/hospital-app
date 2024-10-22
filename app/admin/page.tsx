@@ -3,10 +3,13 @@ import { StatCard } from "@/components/StatCard";
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
 import Image from "next/image";
 import Link from "next/link";
-import {columns} from "@/components/table/columns";
+import {columns, Payment} from "@/components/table/columns";
+
+
 
 const AdminPage = async () => {
   const appointments = await getRecentAppointmentList();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
@@ -50,6 +53,7 @@ const AdminPage = async () => {
           />
         </section>
         <DataTable columns={columns} data={appointments.documents}/>
+
       </main>
     </div>
   );
