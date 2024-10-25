@@ -10,6 +10,7 @@ import StatusBadge from "../StatusBadge"
 import { formatDateTime } from "@/lib/utils"
 import { Doctors } from "@/constant"
 import Image from "next/image"
+import AppointmentModal from "../AppointmentModal"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -70,10 +71,20 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => {
+    cell: ({ row :{ original : data} }) => {
       return(
         <div className="flex gap-1">
-
+          <AppointmentModal type="schedule" 
+          patientId={data.patient.$id} 
+          title="Schedule Appointment" userId={data.userId}
+          appointmentId={data}
+          description="Please confirm the following details to scheduled an appointment"
+          />
+          <AppointmentModal type="schedule" patientId={data.patient.$id} 
+          title="Schedule Appointment" userId={data.userId}
+          appointmentId={data}
+          description="Please confirm the following details to scheduled an appointment"
+          />
         </div>
       )
     },
