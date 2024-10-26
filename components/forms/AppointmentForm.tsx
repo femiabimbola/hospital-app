@@ -17,19 +17,22 @@ import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createAppointment } from "@/lib/actions/appointment.actions";
+import { createAppointment, updateAppointment } from "@/lib/actions/appointment.actions";
 import { FormFieldType } from "./PatientForm";
 import { Doctors } from "@/constant";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
+import { Appointment } from "@/types/appwrite.types";
 
 interface AppointmentFormProps {
   userId: string;
   patientId: string;
   type: "create" | "cancel" | "schedule";
+  appointment?: Appointment;
+  setOpen:(open:boolean) => void;
 }
 
-const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
+const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: AppointmentFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -78,6 +81,25 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
         }
+      } else {
+        const appointmentToUpdate = {
+          userId,
+          appointmentId: appointment?.$id!, // ! means it willnever undefined
+          type,
+          appointment:{ 
+            primaryPhysician: values?.primaryPhysician,
+            schedule: new Date(values?.schedule),
+            status: status as Status,
+            cancellationReason: values?.cancellationReason
+          }
+        }
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        if(updatedAppointment) {
+         setOpen && setOpen(false)
+          form.reset()
+        }
       }
     } catch (error) {
       console.log(error);
@@ -101,10 +123,11 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1">
-        <section className="mb-8 space-y-2">
+       {type === 'create' && <section className="mb-8 space-y-2">
           <h1 className="header"> New Appointment</h1>
           <p className="text-dark-700"> Request a new appointment</p>
         </section>
+        }     
 
         {type !== "cancel" && (
           <>

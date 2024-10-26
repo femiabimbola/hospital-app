@@ -76,14 +76,16 @@ export const columns: ColumnDef<Payment>[] = [
         <div className="flex gap-1">
           <AppointmentModal type="schedule" 
           patientId={data.patient.$id} 
-          title="Schedule Appointment" userId={data.userId}
+           userId={data.userId}
           appointmentId={data}
-          description="Please confirm the following details to scheduled an appointment"
+          // title="Schedule Appointment"
+          // description="Please confirm the following details to scheduled an appointment"
           />
-          <AppointmentModal type="schedule" patientId={data.patient.$id} 
-          title="Schedule Appointment" userId={data.userId}
+          <AppointmentModal type="cancel" patientId={data.patient.$id} 
+           userId={data.userId}
           appointmentId={data}
-          description="Please confirm the following details to scheduled an appointment"
+          // title="Schedule Appointment"
+          // description="Are you sure you want to cancel this appointment?"
           />
         </div>
       )
