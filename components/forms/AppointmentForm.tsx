@@ -40,11 +40,11 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
   const form = useForm<z.infer<typeof CreateAppointmentSchema>>({
     resolver: zodResolver(CreateAppointmentSchema),
     defaultValues: {
-     primaryPhysician: "",
-     schedule: new Date(),
-     reason: "",
-     note:"",
-     cancellationReason:"",
+     primaryPhysician: appointment && appointment.primaryPhysician,
+     schedule: appointment ? new Date(appointment.schedule) : new Date(),
+     reason: appointment && appointment.reason || '',
+     note: appointment ? appointment.note : '',
+     cancellationReason: appointment && appointment.cancellationReason || '',
     },
   });
 
@@ -91,9 +91,8 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
             schedule: new Date(values?.schedule),
             status: status as Status,
             cancellationReason: values?.cancellationReason
-          }
+          },
         }
-
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
 
         if(updatedAppointment) {
@@ -173,7 +172,7 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
                 control={form.control}
                 name="reason"
                 label="Appointment reason"
-                placeholder="Reasib for appointment"
+                placeholder="Reason for appointment"
                 disabled={type === "schedule"}
               />
 
@@ -183,7 +182,7 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
                 name="note"
                 label="Comments/notes"
                 placeholder="Enter notes"
-                disabled={type === "schedule"}
+                // disabled={type === "schedule"}
               />
             </div>
           </>
