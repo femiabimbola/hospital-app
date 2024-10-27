@@ -41,7 +41,7 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
     resolver: zodResolver(CreateAppointmentSchema),
     defaultValues: {
      primaryPhysician: appointment && appointment.primaryPhysician,
-     schedule: appointment ? new Date(appointment.schedule) : new Date(),
+     schedule: appointment ? new Date(appointment.schedule) : new Date(Date.now()),
      reason: appointment && appointment.reason || '',
      note: appointment ? appointment.note : '',
      cancellationReason: appointment && appointment.cancellationReason || '',
@@ -92,6 +92,7 @@ const AppointmentForm = ({ userId, patientId, type, appointment, setOpen }: Appo
             status: status as Status,
             cancellationReason: values?.cancellationReason
           },
+          
         }
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
 

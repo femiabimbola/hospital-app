@@ -3,12 +3,13 @@ import { StatCard } from "@/components/StatCard";
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
 import Image from "next/image";
 import Link from "next/link";
-import {columns, Payment} from "@/components/table/columns";
+import {columns} from "@/components/table/columns";
 
 
 
 const AdminPage = async () => {
   const appointments = await getRecentAppointmentList();
+  console.log(appointments)
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
